@@ -3,9 +3,10 @@ package Lecture4_interfaces_abstract_classes;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 public abstract class BaseTransaction implements TransactionInterface {
-    private final int amount;
+    private final double amount;
     private final Calendar date;
     private final String transactionID;
 
@@ -13,15 +14,11 @@ public abstract class BaseTransaction implements TransactionInterface {
      * Lecture1_adt.TransactionInterface Constructor
      * @param amount in an integer
      * @param date: Not null, and must be a Calendar object
-     * @return void
-     * Instialises the field, attributes of a transaction
-     * Creates a object of this
      */
-    public BaseTransaction(int amount, @NotNull Calendar date)  {
+    public BaseTransaction(double amount, @NotNull Calendar date)  {
         this.amount = amount;
         this.date = (Calendar) date.clone();
-        int uniq = (int) Math.random()*10000;
-        transactionID = date.toString()+uniq;
+        this.transactionID = UUID.randomUUID().toString();
     }
 
     /**
@@ -46,6 +43,12 @@ public abstract class BaseTransaction implements TransactionInterface {
         return  transactionID;
     }
     // Method to print a transaction receipt or details
-    public abstract void printTransactionDetails();
-    public abstract void apply(BankAccount ba);
+    public void printTransactionDetails(){
+        System.out.println("Transaction ID: " + transactionID);
+        System.out.println("Amount: " + amount);
+        System.out.println("Date: " + date.getTime());
+    };
+    public void apply(BankAccount ba)throws InsufficientFundsException {
+        System.out.println("Base transaction applied - no change");
+    };
 }
